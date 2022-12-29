@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <time.h>
 
 pthread_mutex_t mutex;
 
@@ -13,7 +14,7 @@ void* routine() {
 }
 
 int main(int argc, char* argv[]) {
-    time_t start = time(NULL);
+    clock_t start = clock();
 
     pthread_t p1, p2, p3, p4;
     pthread_mutex_init(&mutex, NULL);
@@ -25,8 +26,12 @@ int main(int argc, char* argv[]) {
     }
 
     pthread_mutex_destroy(&mutex);
-    printf("wake a task using lock mutex: ");
-    printf("%.4f second \n", (double)(time(NULL) - start));
+    // Get the elapsed time
+    clock_t end = clock();
+    double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
+
+    // Print the elapsed time
+    printf("wake a task using lock mutex - %f seconds\n", elapsed_time);
 
     return 0;
 }

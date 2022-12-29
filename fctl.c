@@ -4,7 +4,8 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
-    time_t start = time(NULL);
+        // Get the current time
+    clock_t start = clock();
     int fd;
     struct flock lock;
 
@@ -34,7 +35,12 @@ int main(int argc, char *argv[]) {
         }
     }
     close(fd);
-    printf("wake a task using signal fctl: ");
-    printf("%.4f second \n", (double)(time(NULL) - start));
+    remove("file.txt");
+    // Get the elapsed time
+    clock_t end = clock();
+    double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("wake a task using signal fctl - ");
+    // Print the elapsed time
+    printf("%f seconds\n", elapsed_time);
     return 0;
 }

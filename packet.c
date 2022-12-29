@@ -4,12 +4,13 @@
 #include<errno.h>
 #include<unistd.h>
 #include<sys/types.h>
+#include<sys/wait.h>
 #include<sys/socket.h>
 #include<time.h>
 
 int main()
 {
-    time_t start = time(NULL);
+    clock_t start = clock();
     int sv[2];
     char buf;
     if (socketpair(AF_UNIX,SOCK_STREAM,0,sv) == -1)
@@ -34,7 +35,11 @@ int main()
             read(sv[0],&buf,1);
         }
         wait(NULL);
+        clock_t end = clock();
+        double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
+        printf("wake a task using signal packet - ");
+        printf("%f seconds\n", elapsed_time);
+        return 0;
     }
-    printf("wake a task using signal packet: ");
-    printf("%.4f second \n", (double)(time(NULL) - start));
+
 }

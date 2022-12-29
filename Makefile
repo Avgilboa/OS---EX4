@@ -7,10 +7,10 @@ run:
 	./packet
 
 crtFile:
-	gcc cond.c -o cond
-	gcc mutex.c -o mutex
-	gcc fctl.c -o fctl
-	gcc packet.c -o packet
+	gcc -pthread cond.c -o cond
+	gcc -pthread mutex.c -o mutex
+	gcc -pthread fctl.c -o fctl
+	gcc -pthread packet.c -o packet
 
 clean:
 	rm -f *.o cond mutex fctl packet
